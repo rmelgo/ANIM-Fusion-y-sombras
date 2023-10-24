@@ -125,7 +125,7 @@ En la siguiente imagen, se mostrará un ejemplo de ejecución en el que se dibuj
 
 ## Segundo ejemplo
 
-### Conceptos teóricos (buffer de profundidad)
+### Conceptos teóricos
 
 Como se pudo observar al final del ejemplo anterior, el orden en el que se dibujan los triángulos afecta en gran medida a la mezcla resultante. Esto para los objetos en 3D sucede de la misma manera ya que al realizar mezcla entre objetos translúcidos tridimensionales, esta mezcla también va a depender si el dibujado de estos objetos se realiza de atrás hacia adelante o de adelante hacia atrás. Además para los objetos en 3D hay que tener en cuenta el efecto del buffer de profundidad.
 
@@ -201,4 +201,70 @@ En la siguiente imagen, se mostrará un ejemplo de niebla ***lineal*** sobre las
 <p align="center">
   <img src="https://github.com/rmelgo/ANIM-Fusion-y-sombras/assets/145989723/edd1b36d-4741-4a05-bec7-e11e1fb53997">
 </p>
+
+### Ejecución del segundo ejemplo de niebla
+
+Este ejemplo va a consistir en la representación de un cubo giratorio en 3D al que se le ha aplicado niebla a cada una de sus caras.  
+En la siguiente imagen, se mostrará el resultado:
+
+<p align="center">
+  <img src="https://github.com/rmelgo/ANIM-Fusion-y-sombras/assets/145989723/9081ab2c-6cdd-4d17-8b7d-1f021a470a2e">
+</p>
+
+## Reflejo
+
+### Conceptos teóricos
+
+El efecto de reflejo en OpenGL se basa en dos ideas:
+
+- La primera idea será redibujar el objeto u objetos que queremos que se reflejen en una superficie en concreto.
+- La segunda idea es usar los efectos de fusión ya explicados anteriormente.
+
+Para redibujar un obejto sobre una superficie se utilizaran los conceptos de ***Stencil Test*** y ***Stencil Buffer***.
+
+A la hora de renderizar un objeto con OpenGL se le puede aplicar el ***Stencil Test*** para descartar una serie pixeles los cuales se encuentran marcados en el ***Stencil Buffer***. Dentro de este buffer nos encontramos un conjunto de 1 y 0. 
+De esta manera, al renderizar el ***Stencil Test*** solo se renderizan los píxeles de la imagen original que coincidan con las casillas que tengan un 1 en el stencil buffer.
+
+<p align="center">
+  <img src="https://github.com/rmelgo/ANIM-Fusion-y-sombras/assets/145989723/32c30d3c-0c04-4402-a35f-d0d204a04fe5">
+</p>
+
+### Ejemplo de reflejo
+
+Este ejemplo va a partir del ejemplo del cubo anterior. En este caso, se va a representar en un plano horizontal el reflejo del cubo giratorio 3D.
+En la siguiente imagen, se mostrará el resultado:
+
+<p align="center">
+  <img src="https://github.com/rmelgo/ANIM-Fusion-y-sombras/assets/145989723/d05bea9d-b58e-44ba-bee1-a5ee223ab488">
+</p>
+
+## Partículas
+
+### Conceptos teóricos
+
+Para representar partículas en OpenGL, La idea será crear una imagen la cual al pasarla por este canal, a cada píxel se le aplicará un valor de alfa equivalente a la del canal. Por así decirlo, será como aplicar un filtro de alfa a cada pixel de la imagen. 
+
+En nuestro caso, vamos a utilizar las siguientes imágenes para generar las partículas:
+
+<p align="center">
+  <img src="https://github.com/rmelgo/ANIM-Fusion-y-sombras/assets/145989723/fcbee8bf-d27f-4adb-a272-b2f5893c9853">
+</p>
+
+Podemos ver como solo se utilizan los colores blanco, negro y diferentes tonos de gris. Estos colores representan el valor alfa, siendo el blanco un valor 1f (completamente opaco) y el negro el valor 0f (completamente transparente). Con esta idea entendemos que si un objeto se aleja más del centro, su valor alfa decrece. 
+
+La forma de hacerlo es parecida a como cargamos una imagen con el bitmap en OpenGL, vamos a ir recorriendo la imagen pixel a pixel y pondremos en un array de color cual es su RGB. Ahora, además de ese primer recorrido, vamos a comparar cada casilla del array con el Alpha Channel para darle el valor alfa correspondiente segundo su escala de grises. Al tratarse de una escala de grises podemos coger el valor R, G o B sin diferencias.
+
+### Ejemplo de partículas
+
+Este ejemplo va a contener un efecto de partículas giratorio que va a estar sujeto al efecto de la gravedad. El color de las partículas ira cambiando a lo largo de tiempo a medida que se va produciendo el giro.
+En las siguientes imágenes, se mostrará el resultado:
+
+<p align="center">
+  <img src="https://github.com/rmelgo/ANIM-Fusion-y-sombras/assets/145989723/1d992985-8f27-405c-98a1-d802412262bf">
+</p>
+
+<p align="center">
+  <img src="https://github.com/rmelgo/ANIM-Fusion-y-sombras/assets/145989723/f8e6cdbe-3533-4591-936f-e8f2048e419c">
+</p>
+
 
