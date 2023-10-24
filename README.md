@@ -59,4 +59,100 @@ El proyecto cuenta con los siguientes ficheros:
 - Un documento llamado ***EntregaOpenGL.docx*** en el que se describe detalladamente la construcción de los distintos programas OpenGL así como los distintos conceptos teóricos utilizados para ello.
 - Un documento llamado ***Presentación OpenGL.pptx*** que contiene una presentación con los distintos programas OpenGL realizados así como los conceptos básicos necesarios para comprender los distintos efectos presentados.
 
-# - Ejemplo de ejecución
+# - Fusión
+
+## Primer ejemplo
+
+### Conceptos teóricos
+
+Para entender como funciona la fusión básica en OpenGL, es importante comentar en primer lugar varios conceptos teóricos:
+
+**Modelo RGB y RGBA**
+
+- Los colores en los píxeles de la pantalla un ordenador se representan a traves de una combinación de luces roja, azul, verde lo que da lugar al modelo RGB. A este modelo RGB se le puede añadir un cuarto valor llamado alfa o A dando lugar así al modelo RGBA.
+- De esta manera, en cada píxel de la pantalla se almacenan 4 valores correspodientes a estos 4 parámetros que en su conjunto definen el color que va a emitir el pixel.
+  
+**Valores alfa**
+
+El **valor alfa** o **A** suele estar comunmente asociado al porcentaje de transparencia. Pero realmente es la proporción de color del objeto dibujado que se fusiona con el color del objeto que se va a dibujar.
+
+En OpenGL, exite una macro llamada estado de mezcla o GL_BLEND.
+
+- Cuando el estado de mezcla (GL_BLEND) está activado, este valor alfa se utiliza para definir la proporción de mezcla con la que se fusiona el objeto dibujado (que se encuentra en los bufferes) con el objeto que se esta procesando o dibujando.
+
+- Cuando el estado de mezcla (GL_BLEND) no está activado, no existe ningún tipo de combinación o mezcla.
+
+**Factores de origen y destino**
+
+Como hemos dicho anteriormente, en la fusión los valores del fragmento que se está procesando (origen) se combinan con los valores de los píxeles almacenados en los buffers de fotogramas (destino). Esta fusión se realiza en 2 etapas:
+
+- En primer lugar, se especifica cómo calcular los factores del origen y destino. Estos factores son una cuadrupla de valores R, G, B, A que se obtienen por la multiplicación de los componentes RGBA del origen y el destino respectivamente.
+
+- En segundo lugar, se calcula el valor RGBA resultante de la mezcla a partir de los factores de origen y destino y los valores RGBA de origen y destino siguiendo la siguiente fórmula:
+
+```(RsSr+RdDr, GsSg+GdDg, BsSb+BdDb, AsSa+AdDa)```
+
+Donde:
+- Factor de origen: (Sr, Sg, Sb, Sa)
+- Factor de destino: (Dr, Dg, Db, Da)
+- RGBA origen: (Rs, Gs, Bs, As)
+- RGBA destino: (Rd, Gd, Bd, Ad)
+
+Nota: Cada valor R, G, B y A tiene valores que oscilan entre 0 y 1 (ambos incluidos).
+
+### Ejecución del primer ejemplo de fusión
+
+Este ejemplo va a consistir en la representación de 2 triángulos con distintos colores (azul y amarrilo) donde estos 2 triángulos van a compartir un área en común, en la que queremos que se fusionen los colores de ambos triángulos.
+Si el usuario pulsa la tecla T, se cambia el orden en el que se dibujan los triángulos lo que supone un cambio en el color de la mezcla. Para la fusión se ha definido un valor alfa de 0.75.
+
+Posibles casuísticas:
+
+- Si dibujamos primero el triangulo izquierdo (amarillo) y después el derecho (azul), en la fusión vamos a tener un 75 % del color del segundo triángulo que es el azul (figura origen) y un 25 % del color del primer triángulo que es el amarillo (figura destino) por lo que el color azul del segundo triángulo predominará sobre el color amarillo del primer triángulo.
+
+- Si dibujamos primero el triángulo derecho (azul) y después el izquierdo (amarillo), en la fusión vamos a tener un 75 % del color del segundo triángulo que es el amarillo (figura origen) y un 25 % del color del primer triángulo que es el azul (figura destino) por lo que el color amarillo del segundo triángulo predominará sobre el color azul del primer triángulo.
+
+En la siguiente imagen, se mostrará un ejemplo de ejecución en el que se dibuja primero el triángulo izquierdo (amarillo):
+
+<p align="center">
+  <img src="https://github.com/rmelgo/ANIM-Fusion-y-sombras/assets/145989723/196ac0c4-a959-4f8c-a33a-9e95d21958f9">
+</p>
+
+En la siguiente imagen, se mostrará un ejemplo de ejecución en el que se dibuja primero el triángulo derecho (azul):
+
+<p align="center">
+  <img src="https://github.com/rmelgo/ANIM-Fusion-y-sombras/assets/145989723/d01ccbfd-cc6c-48be-be60-929cd6412cf8">
+</p>
+
+## Segundo ejemplo
+
+### Conceptos teóricos (buffer de profundidad)
+
+Como se pudo observar al final del ejemplo anterior, el orden en el que se dibujan los triángulos afecta en gran medida a la mezcla resultante. Esto para los objetos en 3D sucede de la misma manera ya que al realizar mezcla entre objetos translúcidos tridimensionales, esta mezcla también va a depender si el dibujado de estos objetos se realiza de atrás hacia adelante o de adelante hacia atrás. Además para los objetos en 3D hay que tener en cuenta el efecto del buffer de profundidad.
+
+Este **buffer de profundidad** realiza un seguimiento de la distancia entre el punto de vista y la parte del objeto que ocupa un píxel determinado en una ventana de la pantalla. De esta manera, cuando aparecen varios colores de varios objetos en un píxel, solo se dibuja el objeto que está más cerca del punto de vista. Así no se dibujan partes ocultas de un objeto que no se van a ver. Esto sucede así con objetos opacos.
+
+Si se da el caso de que un objeto translúcido esta por delante de un objeto opaco, queremos que se produzca una fusión entre los colores de ambos objetos en vez de ocultar el objeto que se encuentra detrás.
+
+### Ejecución del segundo ejemplo de fusión
+
+Este ejemplo va a consistir en la representación de una esfera opaca amarilla y un cubo translúcido azul donde estas 2 objetos van a compartir un área en común.
+Si el usuario pulsa la tecla R, se cambia la profundidad de los objetos de manera que los distintos efectos producidos dependen de la profundidad con la que se dibujen ambos objetos.
+
+Posibles casuísticas:
+
+- Si la esfera opaca se encuentra por delante del cubo translúcido, la parte del cubo translúcido que se encuentra detrás de la esfera opaca no se dibujará ya que se encuentra detrás de un objeto opaco.
+
+- Si el cubo translúcido se encuentra por delante de la esfera opaca, la parte de la esfera opaca que se encuentra detrás de la del cubo translúcido se dibujará y mezclará con el color del cubo ya que se encuentra detrás de un objeto translúcido.
+
+En la siguiente imagen, se mostrará un ejemplo de ejecución en el que se dibuja por delante la esfera opaca:
+
+<p align="center">
+  <img src="https://github.com/rmelgo/ANIM-Fusion-y-sombras/assets/145989723/6b833044-b1d1-4bba-b598-673c40eadcff">
+</p>
+
+En la siguiente imagen, se mostrará un ejemplo de ejecución en el que se dibuja por delante el cubo translúcido:
+
+<p align="center">
+  <img src="https://github.com/rmelgo/ANIM-Fusion-y-sombras/assets/145989723/92fd2e34-62c0-49ed-ba0d-7823b8246b08">
+</p>
+
