@@ -7,7 +7,7 @@
 Proyecto realizado en la asignatura de Animación Digital del grado de Ingenieria Informática de la Universidad de Salamanca. El enunciado del proyecto se encuentra subido en el repositorio en un archivo PDF llamado <a href="https://github.com/rmelgo/ANIM-Fusion-y-sombras/blob/main/Enunciado.pdf" target="_blank">*Enunciado.pdf*</a>.
 
 El principal objetivo de este proyecto es la realización de una serie de programas utilizando el entorno de **OpenGL** (lenguaje C) y las librerias de ***glut*** que incluyan distintos efectos de fusión y sombras.
-De esta manera, se utilizán las disintas funciones que proporciona la librería glut para realzair ejemplos básicos del uso de efectos visuales como la fusión o la niebla.
+De esta manera, se utilizán las disintas funciones que proporciona la librería glut para realizar ejemplos básicos del uso de efectos visuales como la fusión o la niebla.
 
 # - Comentarios sobre el entorno de ejecución
 
