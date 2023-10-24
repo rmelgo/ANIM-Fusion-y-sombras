@@ -156,3 +156,49 @@ En la siguiente imagen, se mostrará un ejemplo de ejecución en el que se dibuj
   <img src="https://github.com/rmelgo/ANIM-Fusion-y-sombras/assets/145989723/92fd2e34-62c0-49ed-ba0d-7823b8246b08">
 </p>
 
+# - Efectos
+
+## Niebla
+
+### Conceptos teóricos
+
+El uso de la niebla en OpenGL es un concepto muy simple ya que se trabaja con escalas grises para generar este efecto. Para hacer esto posible, se usarán distintas funciones que se aplicarán a cada píxel dependiendo de su distancia respecto al ojo. Un píxel el cual esté más alejado de la cámara tendrá menos visibilidad que uno que esté más cerca. Ahí es donde entran las escalas grises antes mencionadas. Cuando un píxel sea más lejano, se le aplicará un tono gris más denso. Al contrario, cuanto más cerca esté el píxel, más ligero será el tono de gris.
+
+También debemos aclarar que no es obligatorio usar solo el color gris, por ejemplo, si queremos hacer un efecto de noche en un bosque, podríamos usar el color negro en vez del gris para crear este otro tipo de atmosferas. El color es un valor que se puede modificar para aplicar efectos de niebla.
+
+Otro factor que se puede modificar es la densidad de la niebla. Así podemos determinar la distancia a la que un objeto le afecta este efecto.
+
+Existen 3 tipos de niebla en función de la forma de calcular el peso de los tonos grises:
+
+- Lineal
+- Exponencial
+- Exponencial al cuadrado
+
+### Ejecución del primer ejemplo de niebla
+
+Este ejemplo va a consistir en la representación de una serie de esferas rojas a las cuales se le aplican disintos efectos de niebla más o menos intensos.
+Si el usuario pulsa la tecla F, se cambia el tipo de niebla aplicado sobre las distintas esferas. El orden seguido es el siguiente:
+
+- Inicialmente se aplica un tipo de niebla *exponencial* sobre las esferas.
+- Si se pulsa la tecla F, el tipo de niebla se cambia a *exponencial al cuadrado*.
+- Si se vuelve a pulsar la tecla F, el tipo de niebla se cambia a *lineal*.
+- Si se vuelve a pulsar la tecla F, el tipo de niebla se cambia de nuevo a *exponencial* y así sucesivamente.
+
+En la siguiente imagen, se mostrará un ejemplo de niebla ***exponencial*** sobre las esferas:
+
+<p align="center">
+  <img src="https://github.com/rmelgo/ANIM-Fusion-y-sombras/assets/145989723/c26b244f-3585-4873-a366-a28d2d621316">
+</p>
+
+En la siguiente imagen, se mostrará un ejemplo de niebla ***exponencial al cuadrado*** sobre las esferas:
+
+<p align="center">
+  <img src="https://github.com/rmelgo/ANIM-Fusion-y-sombras/assets/145989723/f54fece1-e4e8-4100-a1b8-5c9aea28bc2c">
+</p>
+
+En la siguiente imagen, se mostrará un ejemplo de niebla ***lineal*** sobre las esferas:
+
+<p align="center">
+  <img src="https://github.com/rmelgo/ANIM-Fusion-y-sombras/assets/145989723/edd1b36d-4741-4a05-bec7-e11e1fb53997">
+</p>
+
